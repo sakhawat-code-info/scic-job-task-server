@@ -39,6 +39,12 @@ const verifyToken = (req, res, next) => {
 	});
 };
 
+const cookieOptions = {
+	httpOnly: true,
+	secure: process.env.NODE_ENV === "production",
+	sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+};
+
 const uri = `mongodb+srv://${process.env.S3_BUCKET}:${process.env.SECRET_KEY}@cluster0.9i3jisk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
