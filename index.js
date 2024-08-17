@@ -56,6 +56,26 @@ const client = new MongoClient(uri, {
 	},
 });
 
+async function run() {
+	try {
+		const db = client.db("quickThinkDB");
+
+		// two table created done
+		const myAllProducts = db.collection("myAllProducts");
+
+		// send all data
+		app.get("/myAllProducts", async (req, res) => {
+			// console.log("server theke cookie received", req.cookies);
+			const cursor = myAllProducts.find().sort({ $natural: -1 });
+			const result = await cursor.toArray();
+			res.send(result);
+		});
+
+		console.log("Pinged your deployment. You successfully connected to MongoDB!");
+	} finally {
+		// Ensures that the client will close when you finish/error
+	}
+}
 run().catch(console.dir);
 
 app.get("/", (req, res) => {
