@@ -27,6 +27,17 @@ const middleChecker = (req, res, next) => {
 
 	next();
 };
+const verifyToken = (req, res, next) => {
+	const token = req.cookies.token;
+	if (!token) {
+		return res.status(401).send({ message: "unauthorized access" });
+	}
+	jwt.verify(token, process.env.ACCESS_TOKEN, (err, decoded) => {
+		if (err) return res.status(401).send({ message: "unauthorized access" });
+		req.user = decoded;
+		next();
+	});
+};
 
 const uri = `mongodb+srv://${process.env.S3_BUCKET}:${process.env.SECRET_KEY}@cluster0.9i3jisk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
