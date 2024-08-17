@@ -21,6 +21,13 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+// varify function
+const middleChecker = (req, res, next) => {
+	console.log(req.method, req.url);
+
+	next();
+};
+
 const uri = `mongodb+srv://${process.env.S3_BUCKET}:${process.env.SECRET_KEY}@cluster0.9i3jisk.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
